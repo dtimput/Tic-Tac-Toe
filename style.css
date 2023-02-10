@@ -1,3 +1,19 @@
+.color1 {
+  color: #060606;
+}
+.color2 {
+  color: #1c212b;
+}
+.color3 {
+  color: #45485c;
+}
+.color4 {
+  color: #717797;
+}
+.color5 {
+  color: #a3abd8;
+}
+
 body {
   font-family: fantasy;
   margin: 0;
@@ -10,11 +26,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: blue;
+  background-color: #060606;
 }
 
 .start-menu {
-  display: none;
+  display: grid;
   align-items: center;
   text-align: center;
   grid-template-columns: repeat(5, 1fr);
@@ -24,15 +40,31 @@ body {
   min-height: 500px;
   width: 60%;
   height: 60%;
-  background-color: aqua;
-  border: 5px solid darkblue;
+  background-color: #45485c;
+  border: 5px solid #a3abd8;
   border-radius: 15px;
 }
 
 .title {
   grid-column: 2 / 5;
   grid-row: 1 / 2;
-  font-size: 40px;
+  font-size: 60px;
+}
+
+.p1name,
+.p2name {
+  margin: 30px;
+  text-align: center;
+  border-radius: 30px;
+  border: 2px solid black;
+  background-color: #a3abd8;
+  height: 20px;
+}
+
+.p1name:hover,
+.p2name:hover {
+  background-color: #717797;
+  transition: background-color 300ms ease-in-out;
 }
 
 .p1name {
@@ -46,31 +78,59 @@ body {
 }
 
 .select-shape {
-  font-size: 25px;
+  font-size: 30px;
   grid-column: 2 / 5;
   grid-row: 3 / 4;
 }
 
-.x-selector {
+.x-selector,
+.o-selector {
   font-size: 50px;
+  border-radius: 15px;
+  background-color: #a3abd8;
+}
+
+.x-selector:hover,
+.o-selector:hover {
+  background-color: #717797;
+  transition: background-color 300ms ease-in-out;
+}
+
+.x-selector:active,
+.o-selector:active {
+  box-shadow: 0 3px #a3abd8;
+  transform: translateY(4px);
+}
+
+.x-selector {
   grid-column: 2 / 3;
   grid-row: 4 / 5;
 }
 
 .o-selector {
-  font-size: 50px;
   grid-column: 4 / 5;
   grid-row: 4 / 5;
 }
 
 .start-game {
+  border-radius: 40px;
+  background-color: #a3abd8;
   font-size: 30px;
   grid-column: 2 / 5;
   grid-row: 5 / 6;
 }
 
+.start-game:hover {
+  background-color: #717797;
+  transition: background-color 300ms ease-in-out;
+}
+.start-game:active {
+  box-shadow: 0 3px #a3abd8;
+  transform: translateY(4px);
+}
+
 .game-board {
-  display: grid;
+  display: none;
   height: 60%;
   width: 60%;
   margin-top: 100px;
@@ -79,5 +139,5 @@ body {
 }
 
 .box {
-  border: 2px solid darkblue;
+  border: 2px solid #1c212b;
 }
