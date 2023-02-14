@@ -8,17 +8,29 @@ const Player = function (shape, isTurn, name, placements, hasWon) {
   };
 };
 
+const resetPlayer = function (player) {
+  player.shape = null;
+  player.isTurn = null;
+  player.name = null;
+  player.placements = [];
+  player.hasWon = false;
+
+  return player;
+};
+
 const gameElements = (() => {
   const startMenu = document.querySelector(".start-menu");
   const gameBoard = document.querySelector(".game-board");
   const statusBox = document.querySelector(".status-box");
   const gameStatus = document.querySelector(".game-status");
+  const playerNameBox = document.querySelector(".player-name");
+  const opponentNameBox = document.querySelector(".opponent-name");
   const startGameButton = document.querySelector(".start-game");
   const resetButton = document.querySelector(".reset-button");
   const xSelectorButton = document.querySelector(".x-selector");
   const oSelectorButton = document.querySelector(".o-selector");
-  let player = Player(null, null, "Player One", [], false);
-  let opponent = Player(null, null, "Player Two", [], false);
+  const player = Player(null, null, "Player One", [], false);
+  const opponent = Player(null, null, "Player Two", [], false);
 
   const load = () => {
     startGameButton.addEventListener("click", () => {
@@ -26,14 +38,22 @@ const gameElements = (() => {
         startMenu.style.display = "none";
         gameBoard.style.display = "grid";
         statusBox.style.display = "grid";
+        if (playerNameBox.value !== "P1 name (Optional)") {
+          player.name = playerNameBox.value;
+        } else player.name = "Player One";
+
+        if (opponentNameBox.value !== "P2 name (Optional)") {
+          opponent.name = opponentNameBox.value;
+        } else opponent.name = "Player Two";
+
         if (player.shape === "O") {
           gameStatus.textContent = ` It's ${opponent.name}'s turn!`;
-        }
+        } else gameStatus.textContent = ` It's ${player.name}'s turn!`;
       }
     });
     resetButton.addEventListener("click", () => {
-      player = (null, null, "Player One", [], false);
-      opponent = (null, null, "Player Two", [], false);
+      resetPlayer(player);
+      resetPlayer(opponent);
       startMenu.style.display = "grid";
       gameBoard.style.display = "none";
       statusBox.style.display = "none";
