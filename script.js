@@ -54,9 +54,12 @@ const gameElements = (() => {
     resetButton.addEventListener("click", () => {
       resetPlayer(player);
       resetPlayer(opponent);
+      boardElements.resetBoard();
       startMenu.style.display = "grid";
       gameBoard.style.display = "none";
       statusBox.style.display = "none";
+      xSelectorButton.style.backgroundColor = "#a3abd8";
+      xSelectorButton.style.backgroundColor = "#a3abd8";
     });
     xSelectorButton.addEventListener("click", () => {
       if (player.shape !== "X") {
@@ -152,7 +155,13 @@ const boardElements = (() => {
     );
   };
 
-  return { loadBoard };
+  const resetBoard = () => {
+    gameSquares.forEach((boardElement) => {
+      boardElement.textContent = "";
+    });
+  };
+
+  return { loadBoard, resetBoard };
 })();
 
 gameElements.load();
