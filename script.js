@@ -59,7 +59,7 @@ const gameElements = (() => {
       gameBoard.style.display = "none";
       statusBox.style.display = "none";
       xSelectorButton.style.backgroundColor = "#a3abd8";
-      xSelectorButton.style.backgroundColor = "#a3abd8";
+      oSelectorButton.style.backgroundColor = "#a3abd8";
     });
     xSelectorButton.addEventListener("click", () => {
       if (player.shape !== "X") {
