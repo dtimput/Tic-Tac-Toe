@@ -1,27 +1,39 @@
-const Player = function (shape, isTurn, name, placements = []) {
+const Player = function (shape, isTurn, name, placements, hasWon) {
   return {
     shape,
     isTurn,
     name,
     placements,
+    hasWon,
   };
 };
 
 const gameElements = (() => {
   const startMenu = document.querySelector(".start-menu");
   const gameBoard = document.querySelector(".game-board");
+  const statusBox = document.querySelector(".status-box");
+  const gameStatus = document.querySelector(".game-status");
   const startGameButton = document.querySelector(".start-game");
+  const resetButton = document.querySelector(".reset-button");
   const xSelectorButton = document.querySelector(".x-selector");
   const oSelectorButton = document.querySelector(".o-selector");
-  const player = Player(null, null, null);
-  const opponent = Player(null, null, null);
+  let player = Player(null, null, "Player One", [], false);
+  let opponent = Player(null, null, "Player Two", [], false);
 
   const load = () => {
     startGameButton.addEventListener("click", () => {
       if (player.shape !== null) {
         startMenu.style.display = "none";
         gameBoard.style.display = "grid";
+        statusBox.style.display = "grid";
       }
+    });
+    resetButton.addEventListener("click", () => {
+      player = (null, null, null, [], false);
+      opponent = (null, null, null, [], false);
+      startMenu.style.display = "grid";
+      gameBoard.style.display = "none";
+      statusBox.style.display = "none";
     });
     xSelectorButton.addEventListener("click", () => {
       if (player.shape !== "X") {
@@ -45,33 +57,67 @@ const gameElements = (() => {
     });
   };
 
-  return { load, player, opponent, gameBoard };
+  return { load, player, opponent, gameBoard, gameStatus };
 })();
 
-const logicController = (() => {})();
+const logicController = (() => {
+  const winConditions = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
+
+  const checkWin = (player) => {
+    console.log(gameElements.player.placements);
+    console.log(gameElements.opponent.placements);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const condition of winConditions) {
+      if (condition.every((val) => player.placements.includes(val))) {
+        player.hasWon = true;
+        gameElements.gameStatus.textContent = `${player.name} has won!`;
+      }
+    }
+  };
+
+  return { checkWin };
+})();
 
 const boardElements = (() => {
   const gameSquares = document.querySelectorAll(".box");
-
-  const gameBoard = {};
 
   const loadBoard = () => {
     gameSquares.forEach((boardElement) =>
       boardElement.addEventListener("click", () => {
         const square = boardElement;
-        if (gameElements.player.isTurn === true && square.textContent === "") {
+        if (
+          gameElements.player.isTurn === true &&
+          square.textContent === "" &&
+          gameElements.player.hasWon === false &&
+          gameElements.opponent.hasWon === false
+        ) {
           square.textContent = gameElements.player.shape;
-          gameElements.player.placements.push(square.id);
+          gameElements.player.placements.push(parseInt(square.id, 10));
           gameElements.player.isTurn = false;
           gameElements.opponent.isTurn = true;
+          gameElements.gameStatus.textContent = ` It's ${gameElements.opponent.name}'s turn!`;
+          logicController.checkWin(gameElements.player);
         } else if (
           gameElements.opponent.isTurn === true &&
-          square.textContent === ""
+          square.textContent === "" &&
+          gameElements.opponent.hasWon === false &&
+          gameElements.player.hasWon === false
         ) {
           square.textContent = gameElements.opponent.shape;
-          gameElements.opponent.placements.push(square.id);
+          gameElements.opponent.placements.push(parseInt(square.id, 10));
           gameElements.player.isTurn = true;
           gameElements.opponent.isTurn = false;
+          gameElements.gameStatus.textContent = ` It's ${gameElements.player.name}'s turn!`;
+          logicController.checkWin(gameElements.opponent);
         }
       })
     );
