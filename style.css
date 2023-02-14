@@ -162,7 +162,7 @@ body {
 }
 
 .game-status {
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .reset-button {
@@ -170,6 +170,8 @@ body {
   background-color: #a3abd8;
   font-size: 30px;
   padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .reset-button:hover {

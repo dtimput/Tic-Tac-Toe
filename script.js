@@ -26,11 +26,14 @@ const gameElements = (() => {
         startMenu.style.display = "none";
         gameBoard.style.display = "grid";
         statusBox.style.display = "grid";
+        if (player.shape === "O") {
+          gameStatus.textContent = ` It's ${opponent.name}'s turn!`;
+        }
       }
     });
     resetButton.addEventListener("click", () => {
-      player = (null, null, null, [], false);
-      opponent = (null, null, null, [], false);
+      player = (null, null, "Player One", [], false);
+      opponent = (null, null, "Player Two", [], false);
       startMenu.style.display = "grid";
       gameBoard.style.display = "none";
       statusBox.style.display = "none";
@@ -73,14 +76,20 @@ const logicController = (() => {
   ];
 
   const checkWin = (player) => {
-    console.log(gameElements.player.placements);
-    console.log(gameElements.opponent.placements);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const condition of winConditions) {
-      if (condition.every((val) => player.placements.includes(val))) {
-        player.hasWon = true;
-        gameElements.gameStatus.textContent = `${player.name} has won!`;
+    if (
+      gameElements.player.placements.length +
+        gameElements.opponent.placements.length !==
+      9
+    ) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const condition of winConditions) {
+        if (condition.every((val) => player.placements.includes(val))) {
+          player.hasWon = true;
+          gameElements.gameStatus.textContent = `${player.name} has won!`;
+        }
       }
+    } else {
+      gameElements.gameStatus.textContent = `The game is a tie!`;
     }
   };
 
